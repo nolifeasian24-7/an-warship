@@ -52,4 +52,4 @@ client.on('message', message => {
 		message.channel.send(inviteEmbed)
 	}
 });
-client.login(process.env.NzU2MjYzMDc1MDEwNTc2NDU2.X2PS3w.YvHjBowOoote-7Rf5spvaX6SOyE);
+client.login(process.env.BOT_TOKEN);
