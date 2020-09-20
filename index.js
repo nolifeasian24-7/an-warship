@@ -32,14 +32,14 @@ client.on('message', async message =>{
 		{
 			return message.reply("thought you got me, eh...");
 		}
-		if (message.content.includes('@everyone'||'@here')&& (!message.member.hasPermission("MENTION_EVERYONE")))
+		if (message.content.includes('@everyone'||'@here')&& !message.member.hasPermission("MENTION_EVERYONE"))
 		{
 			return message.reply("you were not supposed to say that :)");
 		}
 		else 
 		{
-			message.channel.send(`${args.join(' ')}`);
-			message.delete(args);
+			message.channel.send(`${args.join(' ')}`)
+			message.delete(args)
 		}
 	}
 
