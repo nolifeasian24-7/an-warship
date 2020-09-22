@@ -74,11 +74,13 @@ client.on('message', async message =>{
 	}
 
 	else if (command === 'invite')
-	const inviteEmbed = new Discord.MessageEmbed()
-	.setTitle("Ooo, an invite.")
-	.setURL('https://discord.com/oauth2/authorize?client_id=756263075010576456&scope=bot')
-	.setDescription("click the blue title to invite me to your server, and thank you!")
-	.setThumbnail('https://media.discordapp.net/attachments/744573479751254087/757867650931097600/pog.gif')
-	message.channel.send(inviteEmbed)
+	{
+		const inviteEmbed = new Discord.MessageEmbed()
+		.setTitle("Ooo, an invite.")
+		.setURL('https://discord.com/oauth2/authorize?client_id=756263075010576456&scope=bot')
+		.setDescription("click the blue title to invite me to your server, and thank you!")
+		.setThumbnail('https://media.discordapp.net/attachments/744573479751254087/757867650931097600/pog.gif')
+		message.channel.send(inviteEmbed)
+	}
 });
 client.login(process.env.BOT_TOKEN);
