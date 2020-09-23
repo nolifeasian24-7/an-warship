@@ -8,8 +8,8 @@ client.on('ready', ()=> {
 	client.user.setPresence({
 		status: 'dnd',
 		activity: {
-			name: "jesser where is your holy text. [an!]",
-			type: 'WATCHING'
+			name: "POV: the reddit kid sees you playing minecraft [an!]",
+			type: 'STREAMING'
 		}
 	})
 });
