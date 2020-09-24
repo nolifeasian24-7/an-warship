@@ -143,4 +143,4 @@ client.on('message', async message =>{
 		message.channel.send(inviteEmbed)
 	}
 });
-client.login('NzU2MjYzMDc1MDEwNTc2NDU2.X2PS3w.7I5GJTTQzXZOr4wrgzu3Wr0Z1Is');
+client.login(process.env.BOT_TOKEN);
