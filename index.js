@@ -192,4 +192,4 @@ client.on('message', async message =>{
 
 	}
 });
-client.login('NzU2MjYzMDc1MDEwNTc2NDU2.X2PS3w.m2iDdiYc9-Yhhs_mUr0KNZnP2gg');
+client.login(process.env.BOT_TOKEN);
