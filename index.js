@@ -2,20 +2,21 @@ const Discord = require('discord.js');
 //const {prefix, token} = require('./config.json');
 const client = new Discord.Client();
 var prefix = ("an!");
-let statusChoice = ['om', 'jessser where is your holy text', 'in development', 'how about no luv'];
+let statusChoice = ['hmmmm', 'watching like 2 servers', 'why?', 'Genshin impact: 6 hours', 'being wholesome'];
 
 client.on('ready', ()=> {
-	console.log("bitch lasagna");
+	console.log("up and running, setting stauts to online, and presence on.");
 	setInterval(function(){
 		let displayedStatus = statusChoice[Math.floor(Math.random()*statusChoice.length)];
 		client.user.setPresence({
-			status: 'idle',
+			status: 'online',
 			activity:{
-				name: displayedStatus
+				name: `an!help for help command|| ${displayedStatus}`
 			}
 		})
 	},20000)
 });
+
 
 client.on('message', async message =>{
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
@@ -36,9 +37,7 @@ client.on('message', async message =>{
 
 	if (command === 'ping')
 	{
-		var ping = Date.now() +message.createdTimestamp;
-		var ping1 = Math.round(ping);
-		message.reply(`nice, your ping is: ${ping1}ms`);
+		message.reply(`your latency is ${Date.now() - message.createdTimestamp}.ms \n and for API latency we are getting ${Math.round(client.ws.ping)}.ms`)
 	}
 
 	else if (command === 'server')
@@ -46,12 +45,8 @@ client.on('message', async message =>{
 		const serverEmbed = new Discord.MessageEmbed()
 		.setColor('#990000')
 		.setTitle(`server name: ${message.guild.name}`)
-		.setDescription(`this server has ${message.guild.memberCount}\n and was created on ${message.guild.createdAt}\n I joined this awesome place on ${message.guild.joinedAt}`)
-		.addField({
-			name: "owner is:",
-			value: `${message.guild.owner.name}`
-		})
-		.setThumbnail('https://cdn.discordapp.com/emojis/745144695214047233.gif?v=1')
+		.setDescription(`this server has ${message.guild.memberCount} members\n and was created on ${message.guild.createdAt}\n I joined this awesome place on ${message.guild.joinedAt}`)
+		.setThumbnail(message.guild.iconURL({dynamic: true}))
 		.setTimestamp()
 		message.channel.send(serverEmbed);
 	}
@@ -65,9 +60,14 @@ client.on('message', async message =>{
 		{
 			return message.reply("you were not supposed to say that :)");
 		}
+		if(message.content.includes("I am stupid"))
+		{
+			return message.reply("yeah we know :/")
+		}
 		else 
 		{
 			message.channel.send(`${args.join(' ')}`)
+			console.log(args)
 			message.delete(args)
 		}
 	}
@@ -87,7 +87,7 @@ client.on('message', async message =>{
 
 			{
 				name: "entertainment:",
-				value: "say: repeats the user's desired message and deletes it \n bigtext: does the same but with those weird blue emoji letters",
+				value: "say: repeats the user's desired message and deletes it",
 				inline: true
 			},
 
@@ -160,7 +160,6 @@ client.on('message', async message =>{
 				inline: true
 			}
 		)
-
 		await message.channel.send(userEmbed)
 	}
 
@@ -175,31 +174,66 @@ client.on('message', async message =>{
 		message.channel.send(inviteEmbed)
 	}
 
-	else if (command === 'kick') 
+	else if (command === "kick")
 	{
-		if (!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send('no perms luv')
-		let User = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0])
-		if (!User) return message.channel.send("who we kicking cheif")
-		let kickReason = args.join(" ").slice(22);
-		if (!kickReason) {
-			Reason = "None"
+		if(!message.member.hasPermission('KICK_MEMBERS')) {
+			message.channel.send('you will need the appropriate permissions to do this, please contact the server admin');
+			return;
 		}
-		User.kick({reason: kickReason})	
+		
+		let member = message.mentions.members.first();
+		if (!member){
+			message.channel.send("please mention the bot to kick");
+			return;
+		}
 
+		let authorsRole = message.member.roles.highest.position;
+		let mentionRole = member.roles.highest.position;
+
+		if (mentionRole >= authorsRole) {
+			message.channel.send("you cannot kick members that are equal to or higher then you in power");
+			return;
+		}
+
+		if(!member.kickable) {
+			message.channel.send('I have no permissions to kick this user');
+			return;
+		}
+
+		member.kick()
+			.then(() => console.log(`successfully kicked${member.displayName}`))
+			.catch(console.error);
 	}
 
-	else if (command === 'ban') 
+	else if (command === "ban")
 	{
-		if (!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send('no perms luv')
-		let User = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0])
-		if (!User) return message.channel.send("who we kicking cheif")
-		let kickReason = args.join(" ").slice(22);
-		if (!kickReason) {
-			Reason = "None"
+		if(!message.member.hasPermission('BAN_MEMBERS')) {
+			message.channel.send('you will need the appropriate permissions to do this, please contact the server admin');
+			return;
 		}
-		User.ban({reason: kickReason})	
+		
+		let member = message.mentions.members.first();
+		if (!member){
+			message.channel.send("please mention the bot to kick");
+			return;
+		}
 
+		let authorsRole = message.member.roles.highest.position;
+		let mentionRole = member.roles.highest.position;
+
+		if (mentionRole >= authorsRole) {
+			message.channel.send("you cannot ban members that are equal to or higher then you in power");
+			return;
+		}
+
+		if(!member.bannable) {
+			message.channel.send('I have no permissions to ban this user');
+			return;
+		}
+
+		member.ban()
+			.then(() => console.log(`successfully banned ${member.displayName}`))
+			.catch(console.error);
 	}
-
 });
 client.login(process.env.BOT_TOKEN);
